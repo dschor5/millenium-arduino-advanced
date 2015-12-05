@@ -37,6 +37,14 @@ void pin3Interrupt()
 {
 
   //make the interrupt toggle the state of the output LED
+  if(digitalRead(13)==HIGH)
+  {
+   digitalWrite(13,LOW);
+  }
+  else
+  {
+   digitalWrite(13,HIGH);
+  }
 
 }
 
