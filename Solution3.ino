@@ -178,9 +178,23 @@ void loop()
  */
 int readKey()
 {
-  /****************************************
-   * Read a single key press into a variable key.
-   ****************************************/
+  // Read default value for the key
+  int key  = analogRead(READ_BUTTON);
+  int temp = 0; // Used to wait for the key to be released
+  
+  while(key >= 1000)
+  {
+    key = analogRead(READ_BUTTON);
+    delay(10);
+  }
+
+  // Wait to release the key
+  temp = analogRead(READ_BUTTON);
+  while(temp <= 1000)
+  {
+    temp = analogRead(READ_BUTTON);
+    delay(10);
+  }
 
   return convertToBtnId(key);
 }
@@ -239,10 +253,16 @@ void updateDisplay()
  */
 int convertToBtnId(int key)
 {
-  /****************************************
-   * Convert the key integer to the corresponding 
-   * value from the keyMapping variable. 
-   ****************************************/
+  int index;
+  
+  // Find which key was pressed
+  for(index = 0; index < NUM_KEYS; index++)
+  {
+    if(key < keyMapping[index])
+    {
+       return index; 
+    }
+  }
    
   // No key found
   return INVALID_KEY;  

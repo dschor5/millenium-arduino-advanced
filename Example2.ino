@@ -139,22 +139,10 @@ void setup()
   lcd.print(keys[0]);
 
   // Update quadrant 2
-  lcd.setCursor(8,0);
-  lcd.print("2:      ");
-  lcd.setCursor(10,0);
-  lcd.print(keys[1]);
-
-  // Update quadrant 3
-  lcd.setCursor(0,1);
-  lcd.print("3:      ");
-  lcd.setCursor(2,1);
-  lcd.print(keys[2]);
-
-  // Update quadrant 4
-  lcd.setCursor(8,1);
-  lcd.print("4:      ");
-  lcd.setCursor(10,1);
-  lcd.print(keys[3]);
+  /****************************************
+   * Insert code to update quadrants 2-4.
+   ****************************************/
+   
 }
 
 /***
@@ -163,23 +151,13 @@ void setup()
  **/
 void loop()
 {
-  // Read a key pressed
-  keys[state] = analogRead(READ_BUTTON);
-  while(keys[state] >= 1000)
-  {
-    keys[state] = analogRead(READ_BUTTON);
-    delay(10);
-  }
+  /****************************************
+   * Read the current key and update the state.
+   * You should only do that once and use the 
+   * state as an index into your array.
+   ****************************************/
 
-  // Wait to release the key
-  temp = analogRead(READ_BUTTON);
-  while(temp <= 1000)
-  {
-    temp = analogRead(READ_BUTTON);
-    delay(10);
-  }
-
-  state = (state + 1) % 4;
+  state = // UPDATE STATE 
 
   // Update quadrant 1
   lcd.setCursor(0,0);
@@ -187,23 +165,9 @@ void loop()
   lcd.setCursor(2,0);
   lcd.print(keys[0]);
 
-  // Update quadrant 2
-  lcd.setCursor(8,0);
-  lcd.print("2:      ");
-  lcd.setCursor(10,0);
-  lcd.print(keys[1]);
-
-  // Update quadrant 3
-  lcd.setCursor(0,1);
-  lcd.print("3:      ");
-  lcd.setCursor(2,1);
-  lcd.print(keys[2]);
-
-  // Update quadrant 4
-  lcd.setCursor(8,1);
-  lcd.print("4:      ");
-  lcd.setCursor(10,1);
-  lcd.print(keys[3]);
+  /****************************************
+   * Insert code to update quadrants 2-4.
+   ****************************************/
   
   // Print the state to the serial log for debugging
   Serial.print(state);

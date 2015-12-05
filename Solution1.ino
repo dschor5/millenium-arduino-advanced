@@ -141,9 +141,23 @@ void setup()
   lcd.setCursor(2,0);
   lcd.print(key1);
 
-  /****************************************
-   * Insert code to update quadrants 2-4.
-   ****************************************/
+  // Update quadrant 2
+  lcd.setCursor(8,0);
+  lcd.print("2:      ");
+  lcd.setCursor(10,0);
+  lcd.print(key2);
+
+  // Update quadrant 3
+  lcd.setCursor(0,1);
+  lcd.print("3:      ");
+  lcd.setCursor(2,1);
+  lcd.print(key3);
+
+  // Update quadrant 4
+  lcd.setCursor(8,1);
+  lcd.print("4:      ");
+  lcd.setCursor(10,1);
+  lcd.print(key4);
 }
 
 /***
@@ -168,22 +182,120 @@ void loop()
       }
 
       // Wait to release the key
-      /****************************************
-       * Insert code to handle the key being released
-       ****************************************/
+      temp = analogRead(READ_BUTTON);
+      while(temp <= 1000)
+      {
+        temp = analogRead(READ_BUTTON);
+        delay(10);
+      }
+
       // Advanced to the next key
       state = 2;
       break;
     }
     
-    /****************************************
-     * Repeat for other states.
-     ****************************************/
+/**
+     *  Read 2nd key.
+     */
+    case 2:
+    {
+      // Read a key pressed
+      key2 = analogRead(READ_BUTTON);
+      while(key2 >= 1000)
+      {
+        key2 = analogRead(READ_BUTTON);
+        delay(10);
+      }
+
+      // Wait to release the key
+      temp = analogRead(READ_BUTTON);
+      while(temp <= 1000)
+      {
+        temp = analogRead(READ_BUTTON);
+        delay(10);
+      }
+
+      // Advanced to the next key
+      state = 3;
+      break;
+    }
+
+    /**
+     *  Read 3rd key.
+     */
+    case 3:
+    {
+      // Read a key pressed
+      key3 = analogRead(READ_BUTTON);
+      while(key3 >= 1000)
+      {
+        key3 = analogRead(READ_BUTTON);
+        delay(10);
+      }
+
+      // Wait to release the key
+      temp = analogRead(READ_BUTTON);
+      while(temp <= 1000)
+      {
+        temp = analogRead(READ_BUTTON);
+        delay(10);
+      }
+
+      // Advanced to the next key
+      state = 4;
+      break;
+    }
+
+    /**
+     *  Read 4th key.
+     */
+    case 4:
+    {
+      // Read a key pressed
+      key4 = analogRead(READ_BUTTON);
+      while(key4 >= 1000)
+      {
+        key4 = analogRead(READ_BUTTON);
+        delay(10);
+      }
+
+      // Wait to release the key
+      temp = analogRead(READ_BUTTON);
+      while(temp <= 1000)
+      {
+        temp = analogRead(READ_BUTTON);
+        delay(10);
+      }
+
+      // Return to 1st key read
+      state = 1;
+      break;
+    }
   }
 
-  /****************************************
-   * Update display
-   ****************************************/
+  // Update quadrant 1
+  lcd.setCursor(0,0);
+  lcd.print("1:      ");
+  lcd.setCursor(2,0);  
+  lcd.print(key1);
+
+  // Update quadrant 2
+  lcd.setCursor(8,0);
+  lcd.print("2:      ");
+  lcd.setCursor(10,0);
+  lcd.print(key2);
+
+  // Update quadrant 3
+  lcd.setCursor(0,1);
+  lcd.print("3:      ");
+  lcd.setCursor(2,1);
+  lcd.print(key3);
+
+  // Update quadrant 4
+  lcd.setCursor(8,1);
+  lcd.print("4:      ");
+  lcd.setCursor(10,1);
+  lcd.print(key4);
   
   // Print the state to the serial log for debugging
   Serial.print(state);

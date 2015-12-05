@@ -1,7 +1,7 @@
 /***
  * Millenium Library - Arduino Workshop
  * 
- * TITLE:        Example #1
+ * TITLE:        Example #2
  * DESCRIPTION:  Reading input.
  * AUTHOR:       Dario Schor (schor@ieee.org)
  * DATE:         December 5, 2015
@@ -9,6 +9,8 @@
  * Track the last 4 keys pressed and display them on the display. 
  * The example uses a state machine to read one key per loop iteration. 
  * The display is updated on every iteration. 
+ * 
+ * Use arrays to store the keys pressed.
  * 
  * Example: 
  *  1. On startup, no keys are pressed, so the display shows 1023 for 
@@ -55,9 +57,7 @@
  *       | 3:200   | 4:200   |
  *       ---------------------
  * 
- * In this example, the 4 keys are stored in separate variables. 
- * For example #2, the keys are stored in an array to reduce the 
- * code size.
+ * In this version, we use an array to store the values. 
  *
  * This example uses the LiquidCrystal librady from:
  * http://arduino.cc/en/Reference/LiquidCrystal
@@ -111,10 +111,7 @@ LiquidCrystal lcd(
   );
   
 int state = 0;  // Current state
-int key1 = 1023;   // Keys pressed
-int key2 = 1023;
-int key3 = 1023;
-int key4 = 1023;
+int keys[4] = {1023, 1023, 1023, 1023};
 int temp = 0;   // Temp variable
 
 /***
@@ -133,17 +130,31 @@ void setup()
   Serial.begin(9600);
 
   // Set initial state
-  state = 1;
+  state = 0;
 
   // Update quadrant 1
   lcd.setCursor(0,0);
   lcd.print("1:      ");
   lcd.setCursor(2,0);
-  lcd.print(key1);
+  lcd.print(keys[0]);
 
-  /****************************************
-   * Insert code to update quadrants 2-4.
-   ****************************************/
+  // Update quadrant 2
+  lcd.setCursor(8,0);
+  lcd.print("2:      ");
+  lcd.setCursor(10,0);
+  lcd.print(keys[1]);
+
+  // Update quadrant 3
+  lcd.setCursor(0,1);
+  lcd.print("3:      ");
+  lcd.setCursor(2,1);
+  lcd.print(keys[2]);
+
+  // Update quadrant 4
+  lcd.setCursor(8,1);
+  lcd.print("4:      ");
+  lcd.setCursor(10,1);
+  lcd.print(keys[3]);
 }
 
 /***
@@ -152,38 +163,47 @@ void setup()
  **/
 void loop()
 {
-  switch(state)
+  // Read a key pressed
+  keys[state] = analogRead(READ_BUTTON);
+  while(keys[state] >= 1000)
   {
-    /**
-     *  Read 1st key.
-     */
-    case 1:
-    {
-      // Read a key pressed
-      key1 = analogRead(READ_BUTTON);
-      while(key1 >= 1000)
-      {
-        key1 = analogRead(READ_BUTTON);
-        delay(10);
-      }
-
-      // Wait to release the key
-      /****************************************
-       * Insert code to handle the key being released
-       ****************************************/
-      // Advanced to the next key
-      state = 2;
-      break;
-    }
-    
-    /****************************************
-     * Repeat for other states.
-     ****************************************/
+    keys[state] = analogRead(READ_BUTTON);
+    delay(10);
   }
 
-  /****************************************
-   * Update display
-   ****************************************/
+  // Wait to release the key
+  temp = analogRead(READ_BUTTON);
+  while(temp <= 1000)
+  {
+    temp = analogRead(READ_BUTTON);
+    delay(10);
+  }
+
+  state = (state + 1) % 4;
+
+  // Update quadrant 1
+  lcd.setCursor(0,0);
+  lcd.print("1:      ");
+  lcd.setCursor(2,0);
+  lcd.print(keys[0]);
+
+  // Update quadrant 2
+  lcd.setCursor(8,0);
+  lcd.print("2:      ");
+  lcd.setCursor(10,0);
+  lcd.print(keys[1]);
+
+  // Update quadrant 3
+  lcd.setCursor(0,1);
+  lcd.print("3:      ");
+  lcd.setCursor(2,1);
+  lcd.print(keys[2]);
+
+  // Update quadrant 4
+  lcd.setCursor(8,1);
+  lcd.print("4:      ");
+  lcd.setCursor(10,1);
+  lcd.print(keys[3]);
   
   // Print the state to the serial log for debugging
   Serial.print(state);
