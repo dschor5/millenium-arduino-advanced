@@ -24,16 +24,16 @@ void setup()
   pinMode(13,OUTPUT);
 
   //configure pin 3 as an input
-  pinMode(3,INPUT_PULLUP);
+  pinMode(2,INPUT_PULLUP);
   
   //attach interrupt functions to pin 3
   //replace RISING with FALLING - what's the difference?
-  attachInterrupt(0,pin3Interrupt,RISING); 
+  attachInterrupt(0,pin2Interrupt,RISING); 
 }
 
 
 //our input pin interrupt
-void pin3Interrupt()
+void pin2Interrupt()
 {
 
   //make the interrupt toggle the state of the output LED
