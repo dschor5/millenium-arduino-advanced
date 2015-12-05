@@ -28,7 +28,7 @@ void setup()
   
   //attach interrupt functions to pin 3
   //replace RISING with FALLING - what's the difference?
-  attachInterrupt(1,pin3Interrupt,RISING); 
+  attachInterrupt(0,pin3Interrupt,RISING); 
 }
 
 
